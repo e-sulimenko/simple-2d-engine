@@ -1,4 +1,5 @@
 import { Transform } from './Transform';
+import { Tags } from './Tags';
 
 interface IGameObjectOptions {
   x?: number;
@@ -10,6 +11,8 @@ interface IGameObjectOptions {
 export class GameObject {
   public transform: Transform = new Transform();
 
+  public tags: Tags = new Tags()
+
   constructor(options: IGameObjectOptions) {
     const {
       x = 0,
@@ -20,17 +23,24 @@ export class GameObject {
     this.transform.setPosition(x, y);
     this.transform.setSize(width, height);
     const path = new Path2D();
-    path.rect(x, y, this.transform.size.width, this.transform.size.height);
+    path.rect(this.drawX, this.drawY, this.transform.size.width, this.transform.size.height);
   }
 
   draw = (ctx: CanvasRenderingContext2D) => {
-    const { x, y } = this.transform.position;
     const path = new Path2D();
-    path.rect(x, y, this.transform.size.width, this.transform.size.height);
+    path.rect(this.drawX, this.drawY, this.transform.size.width, this.transform.size.height);
     ctx.stroke(path);
   }
 
   update(): void {
     // pass
+  }
+
+  private get drawX(): number {
+    return this.transform.position.x - this.transform.size.width / 2
+  }
+
+  private get drawY(): number {
+    return this.transform.position.y - this.transform.size.height / 2
   }
 }

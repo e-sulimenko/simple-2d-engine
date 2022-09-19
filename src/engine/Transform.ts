@@ -8,6 +8,13 @@ export interface ISize {
   height: number;
 }
 
+interface ICoordinates {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+
 export class Transform {
   private _size: ISize = {
     width: 0,
@@ -18,6 +25,8 @@ export class Transform {
     y: 0,
     x: 0,
   }
+
+  private _prevPosition: IPosition = this._position;
 
   public get size(): Readonly<ISize> {
     return this._size;
@@ -35,5 +44,24 @@ export class Transform {
   setSize(width: number, height: number): void {
     this._size.width = width;
     this._size.height = height;
+  }
+
+  coordinates(): ICoordinates {
+    const halfHeight = this._size.height / 2;
+    const halfWidth = this._size.width / 2;
+    return {
+      left: this._position.x - halfWidth,
+      top: this._position.y + halfHeight,
+      right: this._position.x + halfWidth,
+      bottom: this._position.y - halfHeight,
+    }
+  }
+
+  resetPosition(): void {
+    this._position = { ...this._prevPosition };
+  }
+
+  commitPosition() {
+    this._prevPosition = { ... this._position };
   }
 }

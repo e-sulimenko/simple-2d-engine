@@ -1,11 +1,10 @@
 export class Time {
-  static _lastUpdate: number = Date.now();
-  static _deltaTime: number = Time._lastUpdate;
+  static _lastUpdate: number = 0;
+  static _deltaTime: number = 0;
 
-  static update() {
-    const now = Date.now();
-    Time._deltaTime = now - Time._lastUpdate;
-    Time._lastUpdate = now;
+  static update(time: number = 0) {
+    Time._deltaTime = time - Time._lastUpdate;
+    Time._lastUpdate = time;
   }
 
   static get deltaTime() {

@@ -1,9 +1,13 @@
 import { GameObject, Time } from '../engine';
 import { Input } from '../engine/Input';
+import { Collider } from '../engine/Collider';
 
-export class Square extends GameObject {
+export class Player extends GameObject {
+  private readonly collider: Collider;
+
   constructor() {
-    super({ x: 100, y: 0 });
+    super({ x: 26, y: 26 });
+    this.collider = new Collider(this);
   }
 
   update() {
@@ -17,5 +21,10 @@ export class Square extends GameObject {
     } else if (Input.isKey('d')) {
       this.transform.setPosition(x + Time.deltaTime, y);
     }
+
+    const collisions = this.collider.getCollisions();
+    const cannotMove = collisions.some((item) => item.tags.hasTag('wall'));
+    if (cannotMove) this.transform.resetPosition();
+    else this.transform.commitPosition();
   }
 }

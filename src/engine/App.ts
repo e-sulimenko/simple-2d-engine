@@ -13,8 +13,8 @@ export class App {
     requestAnimationFrame(this.run);
   }
 
-  run = (): void => {
-    Time.update();
+  run = (time: number): void => {
+    Time.update(time);
     this.layers.forEach((layer) => layer.update());
     requestAnimationFrame(this.run);
   }

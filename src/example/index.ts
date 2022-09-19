@@ -1,11 +1,16 @@
 import { App, Layer } from '../engine';
-import { Square } from './Square';
+
+import { Player } from './Player';
+import { Wall } from './Wall';
 
 new App({
   layers: [
     new Layer({
       name: 'main',
-      objects: [new Square()],
+      objects: [
+        new Player(),
+        new Wall(),
+      ],
     })
   ]
 })
